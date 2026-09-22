@@ -2,11 +2,13 @@
 
 import { Fragment } from "react";
 import { useWorkspace } from "@/contexts/WorkspaceContext";
+import { useEditorGuard } from "@/contexts/EditorGuardContext";
 import { getAncestorPath } from "@/lib/filesystem";
 import { cn } from "@/utils/cn";
 
 export function Breadcrumb() {
   const { state, dispatch } = useWorkspace();
+  const { guarded } = useEditorGuard();
   const path = getAncestorPath(state.nodes, state.selectedFolderId);
 
   if (path.length === 0) return null;
@@ -27,7 +29,7 @@ export function Breadcrumb() {
                 ) : (
                   <button
                     type="button"
-                    onClick={() => dispatch({ type: "SELECT_FOLDER", id: node.id })}
+                    onClick={() => guarded(() => dispatch({ type: "SELECT_FOLDER", id: node.id }))}
                     className={cn(
                       "rounded px-1 py-0.5 text-slate-500 hover:bg-slate-100 hover:text-slate-900",
                     )}

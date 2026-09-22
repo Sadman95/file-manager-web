@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useWorkspace } from "@/contexts/WorkspaceContext";
+import { useEditorGuard } from "@/contexts/EditorGuardContext";
 import { getChildren } from "@/lib/filesystem";
 import type { NodeType } from "@/types/filesystem";
 import { Breadcrumb } from "@/components/breadcrumb/Breadcrumb";
+import { FileEditor } from "@/components/editor/FileEditor";
 import { FileIcon, FolderIcon } from "@/components/ui/Icons";
 import { CreateDialog } from "@/components/dialogs/CreateDialog";
 import { RenameDialog } from "@/components/dialogs/RenameDialog";
@@ -18,10 +20,10 @@ type DialogState =
 
 export function MainPanel() {
   const { state, dispatch } = useWorkspace();
+  const { guarded } = useEditorGuard();
   const [dialog, setDialog] = useState<DialogState>(null);
   const current = state.nodes[state.selectedFolderId];
   const items = getChildren(state.nodes, state.selectedFolderId);
-  const openFile = state.openFileId ? state.nodes[state.openFileId] : undefined;
 
   if (!current) {
     return (
@@ -60,26 +62,7 @@ export function MainPanel() {
         </p>
       </div>
 
-      {openFile?.type === "file" && (
-        <div className="rounded-xl border border-sky-200 bg-sky-50 px-4 py-3">
-          <div className="flex items-center justify-between gap-2">
-            <p className="truncate text-sm font-medium text-sky-900">
-              Open: {openFile.name} <span className="font-normal text-sky-600">(preview)</span>
-            </p>
-            <button
-              type="button"
-              onClick={() => dispatch({ type: "CLOSE_FILE" })}
-              className="rounded-lg border border-sky-200 bg-white px-2 py-1 text-xs font-medium text-sky-700 hover:bg-sky-100"
-            >
-              Close
-            </button>
-          </div>
-          <pre className="mt-2 max-h-32 overflow-auto rounded-lg bg-white p-3 text-xs whitespace-pre-wrap text-slate-700">
-            {openFile.content || "(empty file)"}
-          </pre>
-          <p className="mt-1 text-xs text-sky-600">Full editor lands in Phase 6.</p>
-        </div>
-      )}
+      <FileEditor key={state.openFileId ?? "closed"} />
 
       {items.length === 0 ? (
         <div className="rounded-xl border border-dashed border-slate-300 bg-white p-10 text-center">
@@ -114,9 +97,11 @@ export function MainPanel() {
               <button
                 type="button"
                 onClick={() =>
-                  item.type === "folder"
-                    ? dispatch({ type: "SELECT_FOLDER", id: item.id })
-                    : dispatch({ type: "OPEN_FILE", id: item.id })
+                  guarded(() =>
+                    item.type === "folder"
+                      ? dispatch({ type: "SELECT_FOLDER", id: item.id })
+                      : dispatch({ type: "OPEN_FILE", id: item.id }),
+                  )
                 }
                 className="flex min-w-0 flex-1 items-center gap-3 text-left"
               >

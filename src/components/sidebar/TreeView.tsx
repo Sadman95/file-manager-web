@@ -1,6 +1,7 @@
 "use client";
 
 import { useWorkspace } from "@/contexts/WorkspaceContext";
+import { useEditorGuard } from "@/contexts/EditorGuardContext";
 import { getChildren } from "@/lib/filesystem";
 import type { FSNode } from "@/types/filesystem";
 import { cn } from "@/utils/cn";
@@ -8,6 +9,7 @@ import { ChevronIcon, FolderIcon } from "@/components/ui/Icons";
 
 function TreeNode({ node, depth }: { node: FSNode; depth: number }) {
   const { state, dispatch } = useWorkspace();
+  const { guarded } = useEditorGuard();
   const children = getChildren(state.nodes, node.id).filter((n) => n.type === "folder");
   const isExpanded = state.expandedIds.includes(node.id);
   const isSelected = state.selectedFolderId === node.id;
@@ -45,7 +47,7 @@ function TreeNode({ node, depth }: { node: FSNode; depth: number }) {
         </button>
         <button
           type="button"
-          onClick={() => dispatch({ type: "SELECT_FOLDER", id: node.id })}
+          onClick={() => guarded(() => dispatch({ type: "SELECT_FOLDER", id: node.id }))}
           className="flex min-w-0 flex-1 items-center gap-2 text-left"
           aria-current={isSelected ? "true" : undefined}
         >
