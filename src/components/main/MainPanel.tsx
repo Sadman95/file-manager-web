@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useWorkspace } from "@/contexts/WorkspaceContext";
 import { useEditorGuard } from "@/contexts/EditorGuardContext";
 import { getChildren } from "@/lib/filesystem";
-import type { NodeType } from "@/types/filesystem";
+import { timeAgo } from "@/lib/time";
+import type { FSNode, NodeMap, NodeType } from "@/types/filesystem";
 import { Breadcrumb } from "@/components/breadcrumb/Breadcrumb";
 import { FileEditor } from "@/components/editor/FileEditor";
 import { FileIcon, FolderIcon } from "@/components/ui/Icons";
@@ -17,6 +18,14 @@ type DialogState =
   | { kind: "rename"; id: string }
   | { kind: "delete"; id: string }
   | null;
+
+/** Files show recency; folders show contents (folder `updatedAt` doesn't track children). */
+export function itemSubtitle(nodes: NodeMap, item: FSNode): string {
+  if (item.type === "file") return `Text file · ${timeAgo(item.updatedAt)}`;
+  const count = getChildren(nodes, item.id).length;
+  if (count === 0) return "Empty folder";
+  return `${count} item${count === 1 ? "" : "s"}`;
+}
 
 export function MainPanel() {
   const { state, dispatch } = useWorkspace();
@@ -105,23 +114,25 @@ export function MainPanel() {
                 }
                 className="flex min-w-0 flex-1 items-center gap-3 text-left"
               >
-                <span className={item.type === "folder" ? "text-sky-600" : "text-slate-400"}>
+                <span className="shrink-0">
                   {item.type === "folder" ? (
-                    <FolderIcon className="h-5 w-5" />
+                    <span className="block text-sky-600">
+                      <FolderIcon className="h-5 w-5" />
+                    </span>
                   ) : (
-                    <FileIcon className="h-5 w-5" />
+                    <FileIcon name={item.name} />
                   )}
                 </span>
                 <span className="min-w-0">
                   <span className="block truncate text-sm font-medium text-slate-900">
                     {item.name}
                   </span>
-                  <span className="block text-xs text-slate-400">
-                    {item.type === "folder" ? "Folder" : "Text file"}
+                  <span className="block truncate text-xs text-slate-400">
+                    {itemSubtitle(state.nodes, item)}
                   </span>
                 </span>
               </button>
-              <span className="flex shrink-0 gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100">
+              <span className="flex shrink-0 gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 max-md:opacity-100">
                 <button
                   type="button"
                   aria-label={`Rename ${item.name}`}

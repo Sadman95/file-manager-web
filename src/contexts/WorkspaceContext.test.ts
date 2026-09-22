@@ -18,6 +18,7 @@ describe("workspaceReducer", () => {
   it("creates folders and files with validation", () => {
     const s1 = workspaceReducer(seedState(), {
       type: "CREATE_NODE",
+      id: "new-1",
       name: "  ",
       nodeType: "folder",
       parentId: SEED_IDS.root,
@@ -26,6 +27,7 @@ describe("workspaceReducer", () => {
 
     const s2 = workspaceReducer(seedState(), {
       type: "CREATE_NODE",
+      id: "new-2",
       name: "Projects",
       nodeType: "folder",
       parentId: SEED_IDS.root,
@@ -34,11 +36,13 @@ describe("workspaceReducer", () => {
 
     const s3 = workspaceReducer(seedState(), {
       type: "CREATE_NODE",
+      id: "new-3",
       name: "New Folder",
       nodeType: "folder",
       parentId: SEED_IDS.root,
     });
     expect(Object.keys(s3.nodes)).toHaveLength(Object.keys(seedState().nodes).length + 1);
+    expect(s3.nodes["new-3"].name).toBe("New Folder");
   });
 
   it("renames and rejects duplicates", () => {
@@ -94,5 +98,12 @@ describe("workspaceReducer", () => {
     const next = workspaceReducer(seedState(), { type: "OPEN_FILE", id: SEED_IDS.notes });
     expect(next.openFileId).toBe(SEED_IDS.notes);
     expect(next.selectedFolderId).toBe(SEED_IDS.webbly);
+  });
+
+  it("selecting another folder closes the open file", () => {
+    const base: WorkspaceState = { ...seedState(), openFileId: SEED_IDS.notes };
+    const next = workspaceReducer(base, { type: "SELECT_FOLDER", id: SEED_IDS.documents });
+    expect(next.selectedFolderId).toBe(SEED_IDS.documents);
+    expect(next.openFileId).toBeNull();
   });
 });

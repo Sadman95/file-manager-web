@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "react-hot-toast";
 import { useWorkspace } from "@/contexts/WorkspaceContext";
 import { getDescendantIds } from "@/lib/filesystem";
 import { Modal } from "@/components/ui/Modal";
@@ -17,6 +18,7 @@ export function DeleteDialog({ nodeId, onClose }: DeleteDialogProps) {
   const nestedCount = getDescendantIds(state.nodes, nodeId).length - 1;
   const confirm = () => {
     dispatch({ type: "DELETE_NODE", id: nodeId });
+    toast.success(`Deleted “${node.name}”`);
     onClose();
   };
 

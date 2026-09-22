@@ -55,10 +55,12 @@ interface TextFieldProps {
   label: string;
   placeholder?: string;
   autoFocus?: boolean;
+  /** Fired on every keystroke — e.g. for live previews — without subscribing via `watch()`. */
+  onValueChange?: (value: string) => void;
 }
 
 /** Controlled text input bound via `useController` — works in any `AppForm`. */
-export function TextField({ name, label, placeholder, autoFocus }: TextFieldProps) {
+export function TextField({ name, label, placeholder, autoFocus, onValueChange }: TextFieldProps) {
   const { control } = useFormContext();
   const {
     field,
@@ -70,6 +72,10 @@ export function TextField({ name, label, placeholder, autoFocus }: TextFieldProp
       <span className="mb-1 block text-xs font-medium text-slate-600">{label}</span>
       <input
         {...field}
+        onChange={(e) => {
+          field.onChange(e);
+          onValueChange?.(e.target.value);
+        }}
         type="text"
         placeholder={placeholder}
         autoFocus={autoFocus}

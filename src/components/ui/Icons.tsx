@@ -1,3 +1,7 @@
+import { getFileKind } from "@/lib/filetypes";
+import { FILETYPE_ICON_PATHS } from "@/components/ui/filetype-icons";
+import { cn } from "@/utils/cn";
+
 interface IconProps {
   className?: string;
 }
@@ -28,16 +32,22 @@ export function FolderIcon({ className = "h-4 w-4" }: IconProps) {
   );
 }
 
-export function FileIcon({ className = "h-4 w-4" }: IconProps) {
+/**
+ * Real per-extension glyph (Bootstrap Icons, vendored offline) tinted by kind.
+ * Pure function of `name`, so it follows the text live wherever the name is
+ * draft state (create/rename/editor). Falls back to a generic glyph.
+ */
+export function FileIcon({ name, className = "h-5 w-5" }: IconProps & { name?: string }) {
+  const kind = getFileKind(name ?? "");
   return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className={className}>
-      <path
-        d="M3.5 1.5h5.2L12.5 5v9.5h-9v-13z"
-        stroke="currentColor"
-        strokeWidth={1.4}
-        strokeLinejoin="round"
-      />
-      <path d="M8.5 1.5V5H12" stroke="currentColor" strokeWidth={1.4} strokeLinejoin="round" />
-    </svg>
+    <svg
+      viewBox="0 0 16 16"
+      fill="currentColor"
+      aria-hidden="true"
+      style={{ color: kind.color }}
+      className={cn("shrink-0", className)}
+      // Build-time generated from a trusted MIT package; no runtime input inside.
+      dangerouslySetInnerHTML={{ __html: FILETYPE_ICON_PATHS[kind.icon] }}
+    />
   );
 }

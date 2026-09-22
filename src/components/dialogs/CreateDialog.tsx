@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-hot-toast";
 import { useWorkspace } from "@/contexts/WorkspaceContext";
-import { validateName } from "@/lib/filesystem";
+import { generateId, validateName } from "@/lib/filesystem";
 import { itemNameSchema, type ItemNameInput } from "@/lib/validation";
 import type { NodeType } from "@/types/filesystem";
 import { Modal } from "@/components/ui/Modal";
 import { AppForm, TextField } from "@/components/ui/Form";
+import { FileIcon, FolderIcon } from "@/components/ui/Icons";
 import { cn } from "@/utils/cn";
 
 interface CreateDialogProps {
@@ -24,6 +26,9 @@ export function CreateDialog({ parentId, initialType, onClose }: CreateDialogPro
     resolver: zodResolver(itemNameSchema),
     defaultValues: { name: "" },
   });
+  // Local mirror for the live icon preview (avoids `watch()`, which the
+  // React Compiler lint flags as unmemoizable).
+  const [preview, setPreview] = useState("");
 
   const submit = (values: ItemNameInput) => {
     const check = validateName(state.nodes, parentId, values.name);
@@ -31,7 +36,11 @@ export function CreateDialog({ parentId, initialType, onClose }: CreateDialogPro
       form.setError("name", { message: check.error });
       return;
     }
-    dispatch({ type: "CREATE_NODE", name: values.name, nodeType, parentId });
+    const id = generateId();
+    dispatch({ type: "CREATE_NODE", id, name: values.name, nodeType, parentId });
+    // New files open immediately so the user can start typing; folders stay put.
+    if (nodeType === "file") dispatch({ type: "OPEN_FILE", id });
+    toast.success(`Created ${nodeType === "folder" ? "folder" : "file"} “${values.name.trim()}”`);
     onClose();
   };
 
@@ -55,11 +64,24 @@ export function CreateDialog({ parentId, initialType, onClose }: CreateDialogPro
         ))}
       </div>
       <AppForm form={form} onSubmit={submit} submitLabel="Create" onCancel={onClose}>
+        <div className="flex items-center gap-2.5 rounded-lg bg-slate-50 px-3 py-2">
+          {nodeType === "folder" ? (
+            <span className="text-sky-600">
+              <FolderIcon className="h-5 w-5" />
+            </span>
+          ) : (
+            <FileIcon name={preview} />
+          )}
+          <span className="truncate text-sm text-slate-500">
+            {preview.trim() === "" ? "Type a name to preview…" : preview.trim()}
+          </span>
+        </div>
         <TextField
           name="name"
           label="Name"
           placeholder={nodeType === "folder" ? "e.g. Projects" : "e.g. notes.txt"}
           autoFocus
+          onValueChange={setPreview}
         />
       </AppForm>
     </Modal>

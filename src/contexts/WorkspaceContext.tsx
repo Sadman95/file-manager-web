@@ -21,7 +21,7 @@ export interface WorkspaceState {
 }
 
 export type WorkspaceAction =
-  | { type: "CREATE_NODE"; name: string; nodeType: NodeType; parentId: string }
+  | { type: "CREATE_NODE"; id: string; name: string; nodeType: NodeType; parentId: string }
   | { type: "RENAME_NODE"; id: string; name: string }
   | { type: "DELETE_NODE"; id: string }
   | { type: "UPDATE_FILE_CONTENT"; id: string; content: string }
@@ -75,12 +75,15 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
       if (!parent || parent.type !== "folder") return state;
       const validation = validateName(state.nodes, action.parentId, action.name);
       if (!validation.ok) return state;
-      const node = createFSNode({
-        name: action.name,
-        type: action.nodeType,
-        parentId: action.parentId,
-        content: action.nodeType === "file" ? "" : undefined,
-      });
+      const node = {
+        ...createFSNode({
+          name: action.name,
+          type: action.nodeType,
+          parentId: action.parentId,
+          content: action.nodeType === "file" ? "" : undefined,
+        }),
+        id: action.id,
+      };
       return {
         ...state,
         nodes: { ...state.nodes, [node.id]: node },
@@ -142,6 +145,9 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
       return {
         ...state,
         selectedFolderId: action.id,
+        // One open thing at a time: browsing elsewhere closes the editor
+        // (dirty edits still confirm first via the editor guard).
+        openFileId: null,
         expandedIds: addUnique(state.expandedIds, ancestors),
       };
     }
