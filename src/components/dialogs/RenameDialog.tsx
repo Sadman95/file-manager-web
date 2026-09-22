@@ -1,3 +1,4 @@
+// Rename dialog with live icon preview and duplicate checks.
 "use client";
 
 import { useState } from "react";

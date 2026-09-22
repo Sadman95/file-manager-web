@@ -1,3 +1,4 @@
+// Shared zod schema for item names (shape only; uniqueness lives in filesystem).
 import { z } from "zod";
 
 /**

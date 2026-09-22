@@ -1,3 +1,4 @@
+// Unit tests for filesystem helpers: sorting, subtrees, paths, validation, search.
 import { describe, expect, it } from "vitest";
 import {
   getAncestorPath,

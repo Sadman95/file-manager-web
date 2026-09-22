@@ -1,3 +1,4 @@
+// Extension → icon-kind mapping (glyph key, tint color, label) for file icons.
 export interface FileKind {
   key: string;
   /** Short label, e.g. "HTML" — used for title/aria. */

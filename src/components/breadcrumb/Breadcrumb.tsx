@@ -1,3 +1,4 @@
+// Clickable root-to-current path for the selected folder.
 "use client";
 
 import { Fragment } from "react";

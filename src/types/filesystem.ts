@@ -1,3 +1,4 @@
+// Core domain types: file-system nodes and workspace snapshots.
 export type NodeType = "folder" | "file";
 
 export interface FSNode {

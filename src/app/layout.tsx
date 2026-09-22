@@ -1,3 +1,4 @@
+// Root layout: metadata, fonts, and global styles.
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";

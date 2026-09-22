@@ -1,3 +1,4 @@
+// Shared glyphs: chevron, folder, and the extension-aware file icon.
 import { getFileKind } from "@/lib/filetypes";
 import { FILETYPE_ICON_PATHS } from "@/components/ui/filetype-icons";
 import { cn } from "@/utils/cn";

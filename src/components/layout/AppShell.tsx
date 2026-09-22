@@ -1,3 +1,4 @@
+// App shell: header with search, responsive sidebar, and main panel.
 "use client";
 
 import { useState } from "react";

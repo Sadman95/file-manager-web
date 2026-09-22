@@ -1,3 +1,4 @@
+// Text editor with drafts, inline rename, shortcuts, and dirty guard.
 "use client";
 
 import { useEffect, useRef, useState } from "react";

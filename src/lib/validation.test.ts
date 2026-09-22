@@ -1,3 +1,4 @@
+// Unit tests for the item-name zod schema.
 import { describe, expect, it } from "vitest";
 import { itemNameSchema } from "@/lib/validation";
 

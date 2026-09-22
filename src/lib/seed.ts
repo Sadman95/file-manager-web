@@ -1,3 +1,4 @@
+// First-run demo tree matching the spec example, with stable ids for tests.
 import type { FSNode, NodeMap, WorkspaceSnapshot } from "@/types/filesystem";
 
 export const SEED_IDS = {

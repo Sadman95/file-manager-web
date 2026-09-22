@@ -1,3 +1,4 @@
+// Global workspace state: reducer, provider, and localStorage sync.
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useReducer } from "react";

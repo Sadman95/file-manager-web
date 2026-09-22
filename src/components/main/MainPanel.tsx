@@ -1,3 +1,4 @@
+// Main panel: breadcrumb, toolbar, item cards, and CRUD dialogs.
 "use client";
 
 import { useState } from "react";

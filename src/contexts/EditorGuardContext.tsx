@@ -1,3 +1,4 @@
+// Guards in-app navigation against unsaved editor changes via confirm modal.
 "use client";
 
 import { createContext, useCallback, useContext, useRef, useState } from "react";

@@ -1,3 +1,4 @@
+// Unit tests for extension parsing and icon-kind mapping.
 import { describe, expect, it } from "vitest";
 import { getExtension, getFileKind } from "@/lib/filetypes";
 

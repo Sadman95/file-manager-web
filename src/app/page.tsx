@@ -1,3 +1,4 @@
+// Home route: wires providers around the app shell.
 import { Toaster } from "react-hot-toast";
 import { WorkspaceProvider } from "@/contexts/WorkspaceContext";
 import { EditorGuardProvider } from "@/contexts/EditorGuardContext";

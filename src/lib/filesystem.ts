@@ -1,3 +1,4 @@
+// Pure filesystem helpers: children, subtrees, paths, validation, and search.
 import type { FSNode, NameValidation, NodeMap, NodeType } from "@/types/filesystem";
 
 export function generateId(): string {

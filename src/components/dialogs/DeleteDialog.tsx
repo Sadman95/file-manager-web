@@ -1,3 +1,4 @@
+// Delete confirm dialog with nested-item count.
 "use client";
 
 import { toast } from "react-hot-toast";

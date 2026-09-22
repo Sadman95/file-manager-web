@@ -1,3 +1,4 @@
+// Versioned localStorage persistence with schema validation and safe fallbacks.
 import type { NodeMap } from "@/types/filesystem";
 
 export const STORAGE_KEY = "mini-workspace:v1";

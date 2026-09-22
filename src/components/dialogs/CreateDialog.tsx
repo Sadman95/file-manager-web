@@ -1,3 +1,4 @@
+// Create dialog: folder/file tabs with live icon preview and validation.
 "use client";
 
 import { useState } from "react";

@@ -1,3 +1,4 @@
+// Unit tests for relative timestamps.
 import { describe, expect, it } from "vitest";
 import { timeAgo } from "@/lib/time";
 

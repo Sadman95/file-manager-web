@@ -1,3 +1,4 @@
+// Recursive folders-only tree with expand, collapse, and select.
 "use client";
 
 import { useWorkspace } from "@/contexts/WorkspaceContext";

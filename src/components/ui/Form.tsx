@@ -1,3 +1,4 @@
+// Reusable controlled form kit: AppForm wrapper plus TextField input.
 "use client";
 
 import { FormProvider, useController, useFormContext } from "react-hook-form";

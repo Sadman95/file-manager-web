@@ -1,3 +1,4 @@
+// Workspace-wide search with match highlight and outside-click dismiss.
 "use client";
 
 import { useMemo, useState } from "react";

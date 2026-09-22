@@ -1,3 +1,4 @@
+// Accessible dialog shell: Escape, backdrop close, and Tab trap.
 "use client";
 
 import { useEffect, useRef } from "react";
