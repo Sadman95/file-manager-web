@@ -35,10 +35,7 @@ export function buildSeedSnapshot(): WorkspaceSnapshot {
       },
       3,
     ),
-    make(
-      { id: SEED_IDS.webbly, name: "Webbly", type: "folder", parentId: SEED_IDS.projects },
-      4,
-    ),
+    make({ id: SEED_IDS.webbly, name: "Webbly", type: "folder", parentId: SEED_IDS.projects }, 4),
     make(
       { id: SEED_IDS.personal, name: "Personal", type: "folder", parentId: SEED_IDS.projects },
       5,

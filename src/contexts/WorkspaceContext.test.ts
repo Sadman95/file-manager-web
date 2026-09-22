@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  workspaceReducer,
-  type WorkspaceState,
-} from "@/contexts/WorkspaceContext";
+import { workspaceReducer, type WorkspaceState } from "@/contexts/WorkspaceContext";
 import { buildSeedSnapshot, SEED_IDS } from "@/lib/seed";
 
 function seedState(): WorkspaceState {

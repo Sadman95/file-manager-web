@@ -129,9 +129,7 @@ export function validateName(
 export function searchNodes(nodes: NodeMap, query: string): FSNode[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  return sortNodes(
-    Object.values(nodes).filter((n) => n.name.toLowerCase().includes(q)),
-  );
+  return sortNodes(Object.values(nodes).filter((n) => n.name.toLowerCase().includes(q)));
 }
 
 export function isFolder(node: FSNode): boolean {

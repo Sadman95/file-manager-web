@@ -55,7 +55,10 @@ export function FileEditor() {
           <p className="truncate text-sm font-semibold text-slate-900">
             {file.name}
             {dirty && (
-              <span title="Unsaved changes" className="ml-1.5 inline-block h-2 w-2 rounded-full bg-amber-500" />
+              <span
+                title="Unsaved changes"
+                className="ml-1.5 inline-block h-2 w-2 rounded-full bg-amber-500"
+              />
             )}
           </p>
           <p className="hidden truncate text-xs text-slate-400 lg:block">

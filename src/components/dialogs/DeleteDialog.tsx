@@ -26,7 +26,8 @@ export function DeleteDialog({ nodeId, onClose }: DeleteDialogProps) {
         Delete <span className="font-semibold text-slate-900">“{node.name}”</span>
         {node.type === "folder" && nestedCount > 0 && (
           <>
-            {" "}and its <span className="font-semibold">{nestedCount} nested item(s)</span>
+            {" "}
+            and its <span className="font-semibold">{nestedCount} nested item(s)</span>
           </>
         )}
         ? This cannot be undone.

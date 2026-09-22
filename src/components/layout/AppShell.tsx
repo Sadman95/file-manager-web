@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useWorkspace } from "@/contexts/WorkspaceContext";
 import { TreeView } from "@/components/sidebar/TreeView";
 import { MainPanel } from "@/components/main/MainPanel";
+import { SearchBar } from "@/components/search/SearchBar";
 import { cn } from "@/utils/cn";
 
 export function AppShell() {
@@ -20,7 +21,7 @@ export function AppShell() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex items-center gap-3 border-b border-slate-200 bg-white px-4 py-3 sm:px-6">
+      <header className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-slate-200 bg-white px-4 py-3 sm:px-6">
         <button
           type="button"
           onClick={() => setSidebarOpen((v) => !v)}
@@ -37,6 +38,9 @@ export function AppShell() {
           <p className="hidden text-xs text-slate-500 sm:block">
             Create, navigate, search, and edit folders + text files.
           </p>
+        </div>
+        <div className="order-last flex w-full min-w-0 sm:order-none sm:ml-auto sm:w-auto sm:flex-1 sm:justify-end">
+          <SearchBar />
         </div>
       </header>
 

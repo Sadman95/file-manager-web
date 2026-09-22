@@ -3,12 +3,7 @@
 import { createContext, useContext, useEffect, useMemo, useReducer } from "react";
 import type { Dispatch, ReactNode } from "react";
 import type { NodeMap, NodeType } from "@/types/filesystem";
-import {
-  createFSNode,
-  getAncestorPath,
-  getDescendantIds,
-  validateName,
-} from "@/lib/filesystem";
+import { createFSNode, getAncestorPath, getDescendantIds, validateName } from "@/lib/filesystem";
 import { buildSeedSnapshot, SEED_IDS } from "@/lib/seed";
 import {
   loadPersistedWorkspace,

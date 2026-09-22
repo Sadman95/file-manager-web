@@ -56,9 +56,7 @@ describe("filesystem utils", () => {
     expect(validateName(nodes, SEED_IDS.root, "a/b").ok).toBe(false);
     expect(validateName(nodes, SEED_IDS.root, "projects").ok).toBe(false); // case-insensitive dup
     expect(validateName(nodes, SEED_IDS.documents, "Projects").ok).toBe(true); // other folder OK
-    expect(
-      validateName(nodes, SEED_IDS.root, "Projects", SEED_IDS.projects).ok,
-    ).toBe(true); // rename self OK
+    expect(validateName(nodes, SEED_IDS.root, "Projects", SEED_IDS.projects).ok).toBe(true); // rename self OK
   });
 
   it("searches workspace-wide, case-insensitive, across nesting", () => {

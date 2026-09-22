@@ -20,7 +20,11 @@ export function Breadcrumb() {
           const isLast = i === path.length - 1;
           return (
             <Fragment key={node.id}>
-              {i > 0 && <span aria-hidden="true" className="text-slate-300">/</span>}
+              {i > 0 && (
+                <span aria-hidden="true" className="text-slate-300">
+                  /
+                </span>
+              )}
               <li className="min-w-0">
                 {isLast ? (
                   <span aria-current="page" className="font-semibold text-slate-900">

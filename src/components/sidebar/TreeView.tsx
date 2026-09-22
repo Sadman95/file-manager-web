@@ -20,9 +20,7 @@ function TreeNode({ node, depth }: { node: FSNode; depth: number }) {
       <div
         className={cn(
           "group flex w-full items-center gap-1 rounded-lg px-2 py-1.5 text-sm",
-          isSelected
-            ? "bg-slate-900 font-medium text-white"
-            : "text-slate-700 hover:bg-slate-100",
+          isSelected ? "bg-slate-900 font-medium text-white" : "text-slate-700 hover:bg-slate-100",
         )}
         style={{ paddingLeft: `${depth * 14 + 8}px` }}
       >
